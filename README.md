@@ -1,50 +1,29 @@
-# React + TypeScript + Vite
+# Архитектура проекта
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Технологический Стек
 
-Currently, two official plugins are available:
+Перечень используемых технологий и инструментов.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Основные инструкменты**: React, TypeScript, Vite
+- **UI/стилизация**: Tailwind CSS, Shadcn/ui
+- **Сетевые запросы**: Axios
+- **Анимации**: Frames-motions
 
-## Expanding the ESLint configuration
+## Компоненты.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Основные**: main.tsx, App.tsx, ThemeContext.tsx и прочие
+- **Утилиты**: Cookies.tsx (для работы с cookie: добавление, удаление, чтение)
+- **Страницы/Pages**: Login.tsx, Registration.tsx, UserProfile.tsx, NotFound.tsx
+- **UI-компоненты**: Взяты из Shadcn/ui
 
-- Configure the top-level `parserOptions` property like this:
+## Запуск локально.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Для запуска локально необходимо
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+1. Склонировать репозиторий `git clone <url> .`
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+2. Открыть проект локально и ввести команды:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+`yarn install`
+
+`yarn dev`

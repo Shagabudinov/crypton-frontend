@@ -2,30 +2,48 @@ import React, { useState } from 'react';
 import { Button } from '../components/ui/Button';
 import { Card, CardContent, CardTitle } from '../components/ui/Card';
 import { PageType, User } from '../types/types';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { API_URL } from '../api';
 import { setCookie } from '../utils/Cookies';
+import Spinner from '../components/ui/Spinner';
 
 interface Props {
   setPage: React.Dispatch<React.SetStateAction<PageType>>;
   setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
-const Login: React.FC<Props> = ({ setPage }) => {
+const Login: React.FC<Props> = ({ setPage, setCurrentUser }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    axios
-      .post(`${API_URL}/login`, { email, password })
-      .then((response) => {
-        setCookie('jwt', response.data.token, 3600);
-        setPage('authorized');
-      })
-      .catch((err) => {
-        console.error('Login error:', err);
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await axios.post(`${API_URL}/login`, {
+        email,
+        password,
       });
+      setCookie('jwt', response.data.token, 3600);
+      setPage('authorized');
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        const axiosError = err as AxiosError;
+        const status = axiosError.response?.status;
+        const message =
+          axiosError.response?.data?.message || axiosError.message;
+        setError(`${status ? `${status}. ` : ''}${message}`);
+      } else {
+        setError('Произошла неизвестная ошибка.');
+      }
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -41,6 +59,7 @@ const Login: React.FC<Props> = ({ setPage }) => {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className='p-2 border border-gray-300 rounded'
           />
 
           <label htmlFor='password'>Пароль</label>
@@ -51,7 +70,10 @@ const Login: React.FC<Props> = ({ setPage }) => {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className='p-2 border border-gray-300 rounded'
           />
+
+          {error && <div className='text-red-500 text-sm'>{error}</div>}
 
           <div className='flex justify-between items-center'>
             <span>Нет аккаунта?</span>
@@ -64,9 +86,13 @@ const Login: React.FC<Props> = ({ setPage }) => {
             </button>
           </div>
 
-          <Button type='submit' className='mt-4'>
-            Войти
-          </Button>
+          {loading ? (
+            <Spinner />
+          ) : (
+            <Button type='submit' className='mt-4'>
+              Войти
+            </Button>
+          )}
         </form>
       </CardContent>
     </Card>

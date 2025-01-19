@@ -11,18 +11,13 @@ import { API_URL } from './api';
 
 const App: React.FC = () => {
   const token = getCookie('jwt');
-  const [page, setPage] = useState<PageType>('loading');
+  const [page, setPage] = useState<PageType>('loading'); // Initial state can remain 'loading' or be adjusted
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   useEffect(() => {
     if (token) {
-      axios
-        .get(`${API_URL}/profile`, { headers: { Authorization: token } })
-        .then((response) => {
-          setCurrentUser(response.data);
-          setPage('authorized');
-        })
-        .catch(() => setPage('login'));
+      setPage('authorized');
+      setCurrentUser({} as User); // Optionally set a placeholder or keep it null
     } else {
       setPage('login');
     }
@@ -31,7 +26,7 @@ const App: React.FC = () => {
   const renderPage = () => {
     switch (page) {
       case 'loading':
-        return <div>Типо лоадер</div>;
+        return <div className='w-80 p-4'>Loading...</div>; // Optional: General loading state
       case 'login':
         return <Login setPage={setPage} setCurrentUser={setCurrentUser} />;
       case 'registration':
@@ -39,14 +34,14 @@ const App: React.FC = () => {
           <Registration setPage={setPage} setCurrentUser={setCurrentUser} />
         );
       case 'authorized':
-        return currentUser ? (
-          <UserProfile
-            user={currentUser}
-            setPage={setPage}
-            setCurrentUser={setCurrentUser}
-          />
-        ) : (
-          <Login setPage={setPage} setCurrentUser={setCurrentUser} />
+        return (
+          <UserProfile setPage={setPage} setCurrentUser={setCurrentUser} />
+        );
+      case 'error':
+        return (
+          <div className='w-80 p-4 bg-red-100 text-red-700 rounded'>
+            <p>Произошла ошибка.</p>
+          </div>
         );
       default:
         return <NotFound />;

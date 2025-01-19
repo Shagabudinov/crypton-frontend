@@ -5,18 +5,24 @@ import { PageType, User } from '../types/types';
 import axios from 'axios';
 import { API_URL } from '../api';
 import { setCookie } from '../utils/Cookies';
+import Spinner from '../components/ui/Spinner';
 
 interface Props {
   setPage: React.Dispatch<React.SetStateAction<PageType>>;
   setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
-const Registration: React.FC<Props> = ({ setPage }) => {
+const Registration: React.FC<Props> = ({ setPage, setCurrentUser }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
+
     axios
       .post(`${API_URL}/register`, { email, password })
       .then((response) => {
@@ -24,7 +30,10 @@ const Registration: React.FC<Props> = ({ setPage }) => {
         setPage('authorized');
       })
       .catch((err) => {
-        console.error('Registration error:', err);
+        setError(err.response?.data?.message || 'Ошибка при регистрации.');
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -41,6 +50,7 @@ const Registration: React.FC<Props> = ({ setPage }) => {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className='p-2 border border-gray-300 rounded'
           />
 
           <label htmlFor='password'>Пароль</label>
@@ -51,7 +61,10 @@ const Registration: React.FC<Props> = ({ setPage }) => {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className='p-2 border border-gray-300 rounded'
           />
+
+          {error && <div className='text-red-500 text-sm'>{error}</div>}
 
           <div className='flex justify-between items-center'>
             <span>Есть аккаунт?</span>
@@ -64,9 +77,13 @@ const Registration: React.FC<Props> = ({ setPage }) => {
             </button>
           </div>
 
-          <Button type='submit' className='mt-4'>
-            Зарегистрироваться
-          </Button>
+          {loading ? (
+            <Spinner />
+          ) : (
+            <Button type='submit' className='mt-4'>
+              Зарегистрироваться
+            </Button>
+          )}
         </form>
       </CardContent>
     </Card>

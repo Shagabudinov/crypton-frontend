@@ -6,11 +6,11 @@ import { RegistrationOrLoginType } from './types/types';
 
 const App: React.FC = () => {
   const [currentType, setCurrentType] =
-    useState<RegistrationOrLoginType>('registration');
-  
+    useState<RegistrationOrLoginType>('authorized');
+
   return (
     <section className='flex justify-center items-center min-h-screen'>
-      <RegistrationOrLogin type={currentType} />
+      <RegistrationOrLogin type={currentType} setCurrentType={setCurrentType} />
     </section>
   );
 };

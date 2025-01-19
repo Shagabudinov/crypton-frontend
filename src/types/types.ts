@@ -1,1 +1,1 @@
-export type RegistrationOrLoginType = 'login' | 'registration';
+export type RegistrationOrLoginType = 'login' | 'registration' | 'authorized';

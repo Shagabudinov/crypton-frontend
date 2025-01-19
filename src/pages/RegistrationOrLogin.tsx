@@ -5,9 +5,13 @@ import { RegistrationOrLoginType } from '../types/types';
 
 interface RegistrationOrLoginProps {
   type: RegistrationOrLoginType;
+  setCurrentType: React.Dispatch<React.SetStateAction<RegistrationOrLoginType>>;
 }
 
-const RegistrationOrLogin: React.FC<RegistrationOrLoginProps> = ({ type }) => {
+const RegistrationOrLogin: React.FC<RegistrationOrLoginProps> = ({
+  type,
+  setCurrentType,
+}) => {
   const isRegistration = type === 'registration';
 
   return (
@@ -32,16 +36,22 @@ const RegistrationOrLogin: React.FC<RegistrationOrLoginProps> = ({ type }) => {
             {isRegistration ? (
               <>
                 <label>Уже есть аккаунт?</label>
-                <a href='/login' className='text-blue-500 hover:underline'>
+                <label
+                  onClick={() => setCurrentType('login')}
+                  className='text-blue-500 hover:underline'
+                >
                   Войти
-                </a>
+                </label>
               </>
             ) : (
               <>
                 <label>Нет аккаунта?</label>
-                <a href='/register' className='text-blue-500 hover:underline'>
-                  Зарегистрироваться
-                </a>
+                <label
+                  onClick={() => setCurrentType('registration')}
+                  className='text-blue-500 hover:underline'
+                >
+                  Войти
+                </label>
               </>
             )}
           </div>

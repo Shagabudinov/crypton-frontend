@@ -2,10 +2,14 @@ import {
   CheckIcon,
   XMarkIcon,
   StarIcon,
-  EyeIcon,
   EyeSlashIcon,
 } from '@heroicons/react/24/solid';
 import { Button } from './ui/button';
+
+interface ResumeProps {
+  className?: string;
+  toggleResumeVisible: () => void;
+}
 
 const BASIC_FEATURES = [
   { completed: true, name: 'Использовать Vite + React + TypeScript' },
@@ -42,11 +46,17 @@ const libraries = [
   'framer-motion',
 ];
 
-export const Resume = ({ className, toggleResumeVisible }) => {
+export const Resume: React.FC<ResumeProps> = ({
+  className,
+  toggleResumeVisible,
+}) => {
   return (
     <div className={`${className} flex gap-6 flex-col`}>
       <div className='flex flex-col border rounded py-2 px-4 relative'>
-        <Button className='absolute right-[-54px] top-0' onClick={() => toggleResumeVisible()}>
+        <Button
+          className='absolute right-[-54px] top-0'
+          onClick={() => toggleResumeVisible()}
+        >
           <EyeSlashIcon className='w-2 h-2'></EyeSlashIcon>
         </Button>
         <p className='font-semibold text-2xl mb-2'>Основное задание</p>

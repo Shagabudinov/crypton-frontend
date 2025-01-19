@@ -9,14 +9,14 @@
 - **Сетевые запросы**: Axios
 - **Анимации**: Frames-motions
 
-## Компоненты.
+## Компоненты
 
 - **Основные**: main.tsx, App.tsx, ThemeContext.tsx и прочие
 - **Утилиты**: Cookies.tsx (для работы с cookie: добавление, удаление, чтение)
 - **Страницы/Pages**: Login.tsx, Registration.tsx, UserProfile.tsx, NotFound.tsx
 - **UI-компоненты**: Взяты из Shadcn/ui
 
-## Запуск локально.
+## Запуск локально
 
 Для запуска локально необходимо
 

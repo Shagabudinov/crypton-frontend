@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardContent, CardTitle } from '../components/ui/Card';
+import { Card, CardContent, CardTitle } from '../components/ui/card';
 
 const NotFound: React.FC = () => (
   <Card className='w-80 p-4 flex flex-col gap-4'>

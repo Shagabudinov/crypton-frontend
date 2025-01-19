@@ -7,6 +7,8 @@ import NotFound from './pages/NotFound';
 import { PageType } from './types/types';
 import { getCookie } from './utils/Cookies';
 import AnimatedWrapper from './animations/AnimatedWrapper';
+import ThemeToggle from './components/ThemeToggle';
+import { Resume } from './components/Resume';
 
 const App: React.FC = () => {
   const token = getCookie('jwt');
@@ -43,8 +45,13 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className='flex justify-center items-center min-h-screen bg-gray-100 relative-container'>
-      {/* Условный оператор нужен для того, чтобы анимация не сработала при логине/регистрации */}
+    <div className='flex flex-col justify-center items-center min-h-screen bg-background text-foreground relative-container'>
+      {/* Переключатель темы в верхнем правом углу */}
+      <div className='absolute top-4 right-4'>
+        <ThemeToggle />
+      </div>
+      <Resume className='absolute top-4 left-4' />
+      {/* Условный оператор для анимации только в нужные моменты */}
       {token ? (
         renderPage()
       ) : (

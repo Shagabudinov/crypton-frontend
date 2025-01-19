@@ -17,9 +17,11 @@ const AnimatedWrapper: React.FC<AnimatedWrapperProps> = ({
   prevPage,
   children,
 }) => {
+  console.log([prevPage, page]);
   const isLoginRegistrationTransition =
     (prevPage === 'login' && page === 'registration') ||
-    (prevPage === 'registration' && page === 'login');
+    (prevPage === 'registration' && page === 'login') ||
+    (prevPage === 'loading' && page === 'login');
 
   const variants = isLoginRegistrationTransition
     ? loginRegVariants

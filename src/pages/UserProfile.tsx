@@ -1,36 +1,27 @@
-// src/pages/UserProfile.tsx
-
 import React from 'react';
 import { Button } from '../components/ui/Button';
 import { Card, CardContent, CardTitle } from '../components/ui/Card';
-import { User } from '../types/types';
+import { User, PageType } from '../types/types';
 import { deleteCookie } from '../utils/Cookies';
 
-interface UserProfileProps {
+interface Props {
   user: User;
-  setCurrentType: React.Dispatch<
-    React.SetStateAction<'login' | 'registration' | 'authorized'>
-  >;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  setPage: React.Dispatch<React.SetStateAction<PageType>>;
+  setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
-const UserProfile: React.FC<UserProfileProps> = ({
-  user,
-  setCurrentType,
-  setUser,
-}) => {
+const UserProfile: React.FC<Props> = ({ user, setPage, setCurrentUser }) => {
   const handleLogout = () => {
-    setUser(null);
-    setCurrentType('login');
     deleteCookie('jwt');
-    console.log('Пользователь вышел из системы');
+    setCurrentUser(null);
+    setPage('login');
   };
 
   return (
-    <Card className='w-[350px] py-4 flex flex-col gap-4'>
+    <Card className='w-80 p-4 flex flex-col gap-4'>
       <CardTitle className='text-center'>Профиль</CardTitle>
       <CardContent>
-        <div className='flex flex-col gap-2'>
+        <div className='flex flex-col gap-1'>
           <span>
             <strong>ID:</strong> {user.id}
           </span>
@@ -38,7 +29,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
             <strong>Email:</strong> {user.email}
           </span>
         </div>
-        <Button type='button' className='mt-6' onClick={handleLogout}>
+        <Button type='button' className='mt-4' onClick={handleLogout}>
           Выйти
         </Button>
       </CardContent>

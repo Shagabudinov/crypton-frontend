@@ -1,74 +1,62 @@
-// src/App.tsx
-
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 import UserProfile from './pages/UserProfile';
 import NotFound from './pages/NotFound';
-import { RegistrationOrLoginType, User } from './types/types';
+import { PageType, User } from './types/types';
 import { getCookie } from './utils/Cookies';
 import axios from 'axios';
 import { API_URL } from './api';
 
 const App: React.FC = () => {
-  const jwt = getCookie('jwt') || null;
-  console.log(jwt);
-  const [currentType, setCurrentType] =
-    useState<RegistrationOrLoginType>('loading');
-  const [user, setUser] = useState<User | null>(null);
+  const token = getCookie('jwt');
+  const [page, setPage] = useState<PageType>('loading');
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   useEffect(() => {
-    if (jwt) {
-      axios({
-        method: 'get',
-        url: `${API_URL}/profile`,
-        headers: { Authorization: jwt },
-      })
-        .then(function (response) {
-          setUser(response.data);
+    if (token) {
+      axios
+        .get(`${API_URL}/profile`, { headers: { Authorization: token } })
+        .then((response) => {
+          setCurrentUser(response.data);
+          setPage('authorized');
         })
-        .then(() => setCurrentType('authorized'));
+        .catch(() => setPage('login'));
+    } else {
+      setPage('login');
     }
-    else {
-      if (currentType === 'loading') {
-        setCurrentType('login');
-      }
-    }
-  }, [currentType, jwt]);
+  }, [token]);
 
   const renderPage = () => {
-    switch (currentType) {
+    switch (page) {
       case 'loading':
-        return <div>Loading...</div>;
+        return <div>Типо лоадер</div>;
       case 'login':
-        return <Login setCurrentType={setCurrentType} setUser={setUser} />;
+        return <Login setPage={setPage} setCurrentUser={setCurrentUser} />;
       case 'registration':
         return (
-          <Registration setCurrentType={setCurrentType} setUser={setUser} />
+          <Registration setPage={setPage} setCurrentUser={setCurrentUser} />
         );
       case 'authorized':
-        if (user) {
-          return (
-            <UserProfile
-              user={user}
-              setCurrentType={setCurrentType}
-              setUser={setUser}
-            />
-          );
-        } else {
-          // Если пользователь не установлен, вернём страницу входа
-          return <Login setCurrentType={setCurrentType} setUser={setUser} />;
-        }
+        return currentUser ? (
+          <UserProfile
+            user={currentUser}
+            setPage={setPage}
+            setCurrentUser={setCurrentUser}
+          />
+        ) : (
+          <Login setPage={setPage} setCurrentUser={setCurrentUser} />
+        );
       default:
         return <NotFound />;
     }
   };
 
   return (
-    <section className='flex justify-center items-center min-h-screen bg-gray-100'>
+    <div className='flex justify-center items-center min-h-screen bg-gray-100'>
       {renderPage()}
-    </section>
+    </div>
   );
 };
 

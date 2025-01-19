@@ -9,10 +9,9 @@ import Skeleton from '../components/ui/Skeleton';
 
 interface Props {
   setPage: React.Dispatch<React.SetStateAction<PageType>>;
-  setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
-const UserProfile: React.FC<Props> = ({ setPage, setCurrentUser }) => {
+const UserProfile: React.FC<Props> = ({ setPage }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [profileError, setProfileError] = useState<string | null>(null);
@@ -26,7 +25,6 @@ const UserProfile: React.FC<Props> = ({ setPage, setCurrentUser }) => {
         })
         .then((response) => {
           setUser(response.data);
-          setCurrentUser(response.data);
           setLoading(false);
         })
         .catch((error) => {
@@ -39,11 +37,10 @@ const UserProfile: React.FC<Props> = ({ setPage, setCurrentUser }) => {
     } else {
       setPage('login');
     }
-  }, [token, setPage, setCurrentUser]);
+  }, [token, setPage]);
 
   const handleLogout = () => {
     deleteCookie('jwt');
-    setCurrentUser(null);
     setPage('login');
   };
 

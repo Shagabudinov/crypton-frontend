@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '../components/ui/Button';
 import { Card, CardContent, CardTitle } from '../components/ui/Card';
-import { PageType, User } from '../types/types';
+import { PageType } from '../types/types';
 import axios, { AxiosError } from 'axios';
 import { API_URL } from '../api';
 import { setCookie } from '../utils/Cookies';
@@ -9,10 +9,9 @@ import Spinner from '../components/ui/Spinner';
 
 interface Props {
   setPage: React.Dispatch<React.SetStateAction<PageType>>;
-  setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
-const Login: React.FC<Props> = ({ setPage, setCurrentUser }) => {
+const Login: React.FC<Props> = ({ setPage }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);

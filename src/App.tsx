@@ -4,20 +4,16 @@ import Login from './pages/Login';
 import Registration from './pages/Registration';
 import UserProfile from './pages/UserProfile';
 import NotFound from './pages/NotFound';
-import { PageType, User } from './types/types';
+import { PageType } from './types/types';
 import { getCookie } from './utils/Cookies';
-import axios from 'axios';
-import { API_URL } from './api';
 
 const App: React.FC = () => {
   const token = getCookie('jwt');
   const [page, setPage] = useState<PageType>('loading'); // Initial state can remain 'loading' or be adjusted
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   useEffect(() => {
     if (token) {
       setPage('authorized');
-      setCurrentUser({} as User); // Optionally set a placeholder or keep it null
     } else {
       setPage('login');
     }
@@ -28,14 +24,14 @@ const App: React.FC = () => {
       case 'loading':
         return <div className='w-80 p-4'>Loading...</div>; // Optional: General loading state
       case 'login':
-        return <Login setPage={setPage} setCurrentUser={setCurrentUser} />;
+        return <Login setPage={setPage}/>;
       case 'registration':
         return (
-          <Registration setPage={setPage} setCurrentUser={setCurrentUser} />
+          <Registration setPage={setPage}/>
         );
       case 'authorized':
         return (
-          <UserProfile setPage={setPage} setCurrentUser={setCurrentUser} />
+          <UserProfile setPage={setPage} />
         );
       case 'error':
         return (

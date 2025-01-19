@@ -1,0 +1,1 @@
+export const API_URL: string = 'https://backend-ashen-seven-22.vercel.app';

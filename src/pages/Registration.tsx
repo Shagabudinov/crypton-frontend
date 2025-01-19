@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 import { Button } from '../components/ui/Button';
 import { Card, CardContent, CardTitle } from '../components/ui/Card';
 import { RegistrationOrLoginType, User } from '../types/types';
+import axios from 'axios';
+import { API_URL } from '../api';
+import { setCookie } from '../utils/Cookies';
 
 interface RegistrationProps {
   setCurrentType: React.Dispatch<React.SetStateAction<RegistrationOrLoginType>>;
@@ -19,15 +22,20 @@ const Registration: React.FC<RegistrationProps> = ({
 
   const handleRegistration = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Здесь должна быть логика регистрации (например, вызов API)
-    // Для демонстрации создадим пользователя вручную
+    
     const newUser: User = {
-      id: '123456',
       email: email,
+      password: password,
     };
-    setUser(newUser);
-    setCurrentType('authorized');
-    console.log('Пользователь зарегистрирован:', newUser);
+
+    axios({
+      method: 'post',
+      url: `${API_URL}/register`,
+      data: newUser,
+    }).then(function (response) {
+      setCookie('jwt', response.data.token, 3600);
+      setCurrentType('authorized');
+    });
   };
 
   return (

@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 import { Button } from '../components/ui/Button';
 import { Card, CardContent, CardTitle } from '../components/ui/Card';
 import { RegistrationOrLoginType, User } from '../types/types';
+import axios from 'axios';
+import { API_URL } from '../api';
+import { setCookie } from '../utils/Cookies';
 
 interface LoginProps {
   setCurrentType: React.Dispatch<React.SetStateAction<RegistrationOrLoginType>>;
@@ -16,19 +19,20 @@ const Login: React.FC<LoginProps> = ({ setCurrentType, setUser }) => {
 
   const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Здесь должна быть логика аутентификации (например, вызов API)
-    // Для демонстрации проверим вручную
-    if (email === 'test@example.com' && password === 'password') {
-      const loggedInUser: User = {
-        id: '123456',
-        email: email,
-      };
-      setUser(loggedInUser);
+
+    const loggedInUser: User = {
+      email: email,
+      password: password,
+    };
+
+    axios({
+      method: 'post',
+      url: `${API_URL}/login`,
+      data: loggedInUser,
+    }).then(function (response) {
+      setCookie('jwt', response.data.token, 3600);
       setCurrentType('authorized');
-      console.log('Пользователь вошёл в систему:', loggedInUser);
-    } else {
-      alert('Неверная почта или пароль');
-    }
+    });
   };
 
   return (

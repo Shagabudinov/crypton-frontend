@@ -1,20 +1,46 @@
 // src/App.tsx
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 import UserProfile from './pages/UserProfile';
 import NotFound from './pages/NotFound';
 import { RegistrationOrLoginType, User } from './types/types';
+import { getCookie } from './utils/Cookies';
+import axios from 'axios';
+import { API_URL } from './api';
 
 const App: React.FC = () => {
+  const jwt = getCookie('jwt') || null;
+  console.log(jwt);
   const [currentType, setCurrentType] =
-    useState<RegistrationOrLoginType>('login');
+    useState<RegistrationOrLoginType>('loading');
   const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    if (jwt) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/profile`,
+        headers: { Authorization: jwt },
+      })
+        .then(function (response) {
+          setUser(response.data);
+        })
+        .then(() => setCurrentType('authorized'));
+    }
+    else {
+      if (currentType === 'loading') {
+        setCurrentType('login');
+      }
+    }
+  }, [currentType, jwt]);
 
   const renderPage = () => {
     switch (currentType) {
+      case 'loading':
+        return <div>Loading...</div>;
       case 'login':
         return <Login setCurrentType={setCurrentType} setUser={setUser} />;
       case 'registration':

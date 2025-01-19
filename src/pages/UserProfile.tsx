@@ -4,6 +4,7 @@ import React from 'react';
 import { Button } from '../components/ui/Button';
 import { Card, CardContent, CardTitle } from '../components/ui/Card';
 import { User } from '../types/types';
+import { deleteCookie } from '../utils/Cookies';
 
 interface UserProfileProps {
   user: User;
@@ -21,6 +22,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
   const handleLogout = () => {
     setUser(null);
     setCurrentType('login');
+    deleteCookie('jwt');
     console.log('Пользователь вышел из системы');
   };
 

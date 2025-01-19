@@ -17,7 +17,6 @@ const RegistrationOrLogin: React.FC<RegistrationOrLoginProps> = ({ type }) => {
       </CardTitle>
       <CardContent>
         <form className='flex flex-col gap-[8px]'>
-          <
           <label htmlFor='email'>Почта</label>
           <input id='email' type='email' placeholder='Ваша почта' required />
 

@@ -1,4 +1,11 @@
-import { CheckIcon, XMarkIcon, StarIcon } from '@heroicons/react/24/solid';
+import {
+  CheckIcon,
+  XMarkIcon,
+  StarIcon,
+  EyeIcon,
+  EyeSlashIcon,
+} from '@heroicons/react/24/solid';
+import { Button } from './ui/button';
 
 const BASIC_FEATURES = [
   { completed: true, name: 'Использовать Vite + React + TypeScript' },
@@ -35,10 +42,13 @@ const libraries = [
   'framer-motion',
 ];
 
-export const Resume = ({ className }) => {
+export const Resume = ({ className, toggleResumeVisible }) => {
   return (
     <div className={`${className} flex gap-6 flex-col`}>
-      <div className='flex flex-col border rounded py-2 px-4'>
+      <div className='flex flex-col border rounded py-2 px-4 relative'>
+        <Button className='absolute right-[-54px] top-0' onClick={() => toggleResumeVisible()}>
+          <EyeSlashIcon className='w-2 h-2'></EyeSlashIcon>
+        </Button>
         <p className='font-semibold text-2xl mb-2'>Основное задание</p>
         {BASIC_FEATURES.map((item) => (
           <span className='flex'>

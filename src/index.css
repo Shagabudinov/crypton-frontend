@@ -1,5 +1,3 @@
-/* src/index.css */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -69,12 +67,10 @@
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
-  /* Применение границ ко всем элементам */
   * {
     @apply border-border;
   }
 
-  /* Установка фонового цвета и цвета текста для body */
   body {
     @apply bg-background text-foreground;
   }

@@ -14,6 +14,11 @@ const App: React.FC = () => {
   const token = getCookie('jwt');
   const [page, setPage] = useState<PageType>('loading');
   const prevPageRef = useRef<PageType>('loading');
+  const [isResumeVisible, setIsResumeVisible] = useState<boolean>(true);
+
+  const toggleResumeVisible = () => {
+    setIsResumeVisible((prev) => !prev);
+  };
 
   useEffect(() => {
     if (token) {
@@ -50,7 +55,14 @@ const App: React.FC = () => {
       <div className='absolute top-4 right-4'>
         <ThemeToggle />
       </div>
-      <Resume className='absolute top-4 left-4' />
+      {isResumeVisible ? (
+        <Resume
+          className='absolute top-4 left-4'
+          toggleResumeVisible={toggleResumeVisible}
+        />
+      ) : (
+        <></>
+      )}
       {/* Условный оператор для анимации только в нужные моменты */}
       {token ? (
         renderPage()

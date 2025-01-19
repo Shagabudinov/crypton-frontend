@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardTitle } from '../components/ui/card';
+import { Input } from '../components/ui/input';
 import { PageType } from '../types/types';
 import axios from 'axios';
 import { API_URL } from '../api';
@@ -68,7 +69,7 @@ const Registration: React.FC<Props> = ({ setPage }) => {
       <CardContent>
         <form onSubmit={handleRegister} className='flex flex-col gap-2'>
           <label htmlFor='email'>Почта</label>
-          <input
+          <Input
             id='email'
             type='email'
             placeholder='Ваша почта'
@@ -79,7 +80,7 @@ const Registration: React.FC<Props> = ({ setPage }) => {
           />
 
           <label htmlFor='password'>Пароль</label>
-          <input
+          <Input
             id='password'
             type='password'
             placeholder='Ваш пароль'
@@ -90,7 +91,7 @@ const Registration: React.FC<Props> = ({ setPage }) => {
           />
 
           <label htmlFor='confirmPassword'>Подтвердите пароль</label>
-          <input
+          <Input
             id='confirmPassword'
             type='password'
             placeholder='Повторите ваш пароль'

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardTitle } from '../components/ui/card';
+import { Input } from '../components/ui/input';
 import { PageType } from '../types/types';
 import axios, { AxiosError } from 'axios';
 import { API_URL } from '../api';
@@ -55,7 +56,7 @@ const Login: React.FC<Props> = ({ setPage }) => {
       <CardContent>
         <form onSubmit={handleLogin} className='flex flex-col gap-2'>
           <label htmlFor='email'>Почта</label>
-          <input
+          <Input
             id='email'
             type='email'
             placeholder='Ваша почта'
@@ -66,7 +67,7 @@ const Login: React.FC<Props> = ({ setPage }) => {
           />
 
           <label htmlFor='password'>Пароль</label>
-          <input
+          <Input
             id='password'
             type='password'
             placeholder='Ваш пароль'

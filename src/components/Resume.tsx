@@ -108,6 +108,16 @@ export const Resume: React.FC<ResumeProps> = ({
           ))}
         </div>
       </div>
+      <div className='flex flex-col border rounded py-2 px-4 items-start'>
+        <a
+          className='font-semibold text-2xl mb-2 mr-2 underline'
+          href='https://github.com/Shagabudinov/crypton-frontend'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          Ссылка на Github
+        </a>
+      </div>
     </div>
   );
 };

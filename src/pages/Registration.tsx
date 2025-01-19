@@ -14,9 +14,20 @@ interface Props {
 const Registration: React.FC<Props> = ({ setPage }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState(''); // Новое состояние
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const validatePassword = (pwd: string): string | null => {
+    if (pwd.length < 6) {
+      return 'Пароль должен содержать минимум 6 символов.';
+    }
+    const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
+    if (!specialCharRegex.test(pwd)) {
+      return 'Пароль должен содержать хотя бы один специальный символ: !@#$%^&*(),.?":{}|<>';
+    }
+    return null;
+  };
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,6 +35,13 @@ const Registration: React.FC<Props> = ({ setPage }) => {
     // Проверка совпадения паролей
     if (password !== confirmPassword) {
       setError('Пароли не совпадают.');
+      return;
+    }
+
+    // Валидация пароля
+    const passwordError = validatePassword(password);
+    if (passwordError) {
+      setError(passwordError);
       return;
     }
 

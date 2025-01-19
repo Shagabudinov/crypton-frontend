@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Button } from '../components/ui/Button';
-import { Card, CardContent, CardTitle } from '../components/ui/Card';
+import { Button } from '../components/ui/button';
+import { Card, CardContent, CardTitle } from '../components/ui/card';
 import { PageType } from '../types/types';
 import axios from 'axios';
 import { API_URL } from '../api';

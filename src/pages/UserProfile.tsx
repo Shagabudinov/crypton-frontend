@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from '../components/ui/Button';
-import { Card, CardContent, CardTitle } from '../components/ui/Card';
+import { Button } from '../components/ui/button';
+import { Card, CardContent, CardTitle } from '../components/ui/card';
 import { User, PageType } from '../types/types';
 import { deleteCookie, getCookie } from '../utils/Cookies';
 import axios from 'axios';

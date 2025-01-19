@@ -37,12 +37,6 @@ const App: React.FC = () => {
         return <Registration setPage={setPage} />;
       case 'authorized':
         return <UserProfile setPage={setPage} />;
-      case 'error':
-        return (
-          <div className='w-80 p-4 bg-red-100 text-red-700 rounded'>
-            <p>Произошла ошибка.</p>
-          </div>
-        );
       default:
         return <NotFound />;
     }

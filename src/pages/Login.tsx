@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Button } from '../components/ui/Button';
-import { Card, CardContent, CardTitle } from '../components/ui/Card';
+import { Button } from '../components/ui/button';
+import { Card, CardContent, CardTitle } from '../components/ui/card';
 import { PageType } from '../types/types';
 import axios, { AxiosError } from 'axios';
 import { API_URL } from '../api';
@@ -9,6 +9,10 @@ import Spinner from '../components/ui/Spinner';
 
 interface Props {
   setPage: React.Dispatch<React.SetStateAction<PageType>>;
+}
+
+interface ErrorResponse {
+  message: string;
 }
 
 const Login: React.FC<Props> = ({ setPage }) => {
@@ -30,8 +34,8 @@ const Login: React.FC<Props> = ({ setPage }) => {
       setCookie('jwt', response.data.token, 3600);
       setPage('authorized');
     } catch (err: unknown) {
-      if (axios.isAxiosError(err)) {
-        const axiosError = err as AxiosError;
+      if (axios.isAxiosError<ErrorResponse>(err)) {
+        const axiosError = err as AxiosError<ErrorResponse>;
         const status = axiosError.response?.status;
         const message =
           axiosError.response?.data?.message || axiosError.message;

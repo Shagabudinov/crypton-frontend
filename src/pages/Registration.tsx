@@ -14,11 +14,19 @@ interface Props {
 const Registration: React.FC<Props> = ({ setPage }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState(''); // Новое состояние
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Проверка совпадения паролей
+    if (password !== confirmPassword) {
+      setError('Пароли не совпадают.');
+      return;
+    }
+
     setLoading(true);
     setError(null);
 
@@ -60,6 +68,17 @@ const Registration: React.FC<Props> = ({ setPage }) => {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className='p-2 border border-gray-300 rounded'
+          />
+
+          <label htmlFor='confirmPassword'>Подтвердите пароль</label>
+          <input
+            id='confirmPassword'
+            type='password'
+            placeholder='Повторите ваш пароль'
+            required
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             className='p-2 border border-gray-300 rounded'
           />
 

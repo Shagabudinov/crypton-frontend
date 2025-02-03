@@ -1,7 +1,6 @@
 import {
   CheckIcon,
   XMarkIcon,
-  StarIcon,
   EyeSlashIcon,
 } from '@heroicons/react/24/solid';
 import { Button } from './ui/button';

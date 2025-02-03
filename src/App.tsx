@@ -14,7 +14,7 @@ const App: React.FC = () => {
   const token = getCookie('jwt');
   const [page, setPage] = useState<PageType>('loading');
   const prevPageRef = useRef<PageType>('loading');
-  const [isResumeVisible, setIsResumeVisible] = useState<boolean>(false);
+  const [isResumeVisible, setIsResumeVisible] = useState<boolean>(true);
 
   const toggleResumeVisible = () => {
     setIsResumeVisible((prev) => !prev);
